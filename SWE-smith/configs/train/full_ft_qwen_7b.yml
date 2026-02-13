@@ -1,0 +1,104 @@
+exp_name: qwen2p5-coder-7b-full-lr1e-4-warmup5___xml_all_250413
+output_dir: /weights/exps/${exp_name}
+
+# Model Arguments
+model:
+  _component_: torchtune.models.qwen2_5.qwen2_5_7b_instruct
+
+tokenizer:
+  _component_: torchtune.models.qwen2_5.qwen2_5_tokenizer
+  path: /weights/Qwen/Qwen2.5-Coder-7B-Instruct/vocab.json
+  merges_file: /weights/Qwen/Qwen2.5-Coder-7B-Instruct/merges.txt
+  max_seq_len: 32768
+
+checkpointer:
+  _component_: torchtune.training.FullModelHFCheckpointer
+  checkpoint_dir: /weights/Qwen/Qwen2.5-Coder-7B-Instruct
+  checkpoint_files: [
+    model-00001-of-00004.safetensors,
+    model-00002-of-00004.safetensors,
+    model-00003-of-00004.safetensors,
+    model-00004-of-00004.safetensors,
+  ]
+  recipe_checkpoint: null
+  output_dir: ${output_dir}
+  model_type: QWEN2
+  safe_serialization: True
+resume_from_checkpoint: False
+
+# Dataset and Sampler
+dataset:
+  _component_: torchtune.datasets.chat_dataset
+  source: json
+  data_files: /data/archive/swesmith.trajs.250413.jsonl
+  split: train
+  conversation_column: messages
+  conversation_style: openai
+  train_on_input: False
+  new_system_prompt: null
+  packed: False  # True increases speed
+seed: 42
+shuffle: True
+batch_size: 1
+
+# Optimizer and Scheduler
+optimizer:
+  _component_: torch.optim.AdamW
+  fused: True
+  weight_decay: 0.01
+  lr: 1e-4
+lr_scheduler:
+  _component_: torchtune.training.lr_schedulers.get_cosine_schedule_with_warmup
+  num_warmup_steps: 5
+optimizer_in_bwd: False
+loss:
+  _component_: torchtune.modules.loss.CEWithChunkedOutputLoss
+
+# Training
+epochs: 3
+max_steps_per_epoch: null
+gradient_accumulation_steps: 4 # Use to increase virtual batch size
+compile: True  # pytorch compile, set to true for better perf/memory
+
+# Logging
+metric_logger:
+  _component_: torchtune.training.metric_logging.WandBLogger
+  project: swesmith
+  group: ${exp_name}
+  job_type: full_finetune_distributed
+log_every_n_steps: 1
+log_peak_memory_stats: True
+
+# Environment
+device: cuda
+dtype: bf16
+enable_activation_checkpointing: True  # True reduces memory
+enable_activation_offloading: False  # True reduces memory
+# custom_sharded_layers: ['tok_embeddings']  # Layers to shard separately (useful for large vocab size models). Lower Memory, but lower speed.
+
+# Show case the usage of pytorch profiler
+# Set enabled to False as it's only needed for debugging training
+profiler:
+  _component_: torchtune.training.setup_torch_profiler
+
+  enabled: False
+
+  #Output directory of trace artifacts
+  output_dir: ${output_dir}/profiling_outputs
+
+  #`torch.profiler.ProfilerActivity` types to trace
+  cpu: True
+  cuda: True
+
+  #trace options passed to `torch.profiler.profile`
+  profile_memory: False
+  with_stack: False
+  record_shapes: True
+  with_flops: False
+
+  # `torch.profiler.schedule` options:
+  # wait_steps -> wait, warmup_steps -> warmup, active_steps -> active, num_cycles -> repeat
+  wait_steps: 5
+  warmup_steps: 5
+  active_steps: 2
+  num_cycles: 1

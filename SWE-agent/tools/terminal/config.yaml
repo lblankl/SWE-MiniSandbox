@@ -1,0 +1,9 @@
+tools:
+  bash:
+    signature: "bash <command>"
+    docstring: "view an image file"
+    arguments:
+      - name: command
+        type: string
+        description: "the command to run"
+        required: true

@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: swesandbox
+Version: 0.1.0
+Summary: 我的 pip 包示例
+Author-email: danlongyuan <your_email@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/yourname/mypackage
+Project-URL: Repository, https://github.com/yourname/mypackage
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: requests

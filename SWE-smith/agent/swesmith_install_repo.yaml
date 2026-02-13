@@ -1,0 +1,47 @@
+agent:
+  templates:
+    system_template: |-
+      You are a helpful assistant that can interact with a computer to solve tasks.
+    instance_template: |-
+      <uploaded_files>
+      {{working_dir}}
+      </uploaded_files>
+      I've uploaded a python code repository in the directory {{working_dir}}.
+
+      Can you please help me install this repository?
+      Your goal should be to configure the repository's development environment such that existing tests pass.
+      You are currently in the root directory of the repository, and nothing has been installed yet.
+      You in an Ubuntu 22.04 environment.
+
+      The repository is predominantly written in Python. Here are several tips for installing it:
+      1. A good place to start is to look for a `CONTRIBUTING.[md|rst]` file, which will often contain instructions on how to install the repository and any dependencies it may have. Occasionally, the `README.md` file may also contain installation instructions.
+      2. Usually, a repository may have `setup.py` or `pyproject.toml` files which can be used to install the package. `pip install -e .` is commonly used, although many packages will also require an additional specifier that installs development packages as well (e.g. `pip install -e .[dev]`).
+      3. To check whether the repository was installed successfully, run tests and see if they pass. You can usually find tests in a `tests/` or `test/` directory. You can run tests using `pytest` or `unittest`, depending on the framework used by the repository.
+      4. Sometimes, you will need to install additional packages, often listed in a `requirements.txt` or `environment.yml` file. Also, be mindful of Ubuntu system dependencies that may need to be installed via `apt-get` (e.g. `sudo apt-get install <package>`).
+
+      Once you are finished with installing the repository, run the `submit` command to submit your changes for review
+    next_step_template: |-
+      OBSERVATION:
+      {{observation}}
+    next_step_no_output_template: |-
+      Your command ran successfully and did not produce any output.
+  tools:
+    bundles:
+      - path: tools/registry
+      - path: tools/edit_anthropic
+      - path: tools/submit
+    registry_variables:
+      USE_FILEMAP: 'true'
+      enable_bash_tool: true
+      parse_function:
+        type: function_calling
+      execution_timeout: 300
+  history_processors:
+    - type: cache_control
+      last_n_messages: 2
+  model:
+    name: claude-3-7-sonnet-20250219
+    api_key: $CLAUDE_API_KEY_ROTATION
+    per_instance_cost_limit: 2.
+    per_instance_call_limit: 150
+    delay: 1

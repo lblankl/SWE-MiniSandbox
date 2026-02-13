@@ -1,0 +1,58 @@
+site_name: SWE-MiniSandbox
+
+
+theme:
+  name: readthedocs      # 或 material / readthedocs 等
+  favicon: img/favicon.ico
+  # features:
+  #   - navigation.tabs
+  #   - navigation.sections   # 左侧按 section 展开
+  #   - toc.integrate         # 把 TOC 集成到左侧（右侧 TOC 会消失）
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths:
+            - .
+          options:
+            # 控制展示风格的关键配置
+            show_source: true          # 显示 “Source code in xxx.py”
+            show_root_toc_entry: false
+            show_root_heading: true
+            docstring_style: google   # numpy / sphinx / google 都可以
+            show_signature: true
+            show_bases: true
+            group_by_category: true
+            separate_signature: true
+
+           
+ 
+nav:
+  - Home: index.md
+  - Navigation:
+      # - Dev : guide/ideaTALK.md
+      - Quick Start: guide/quick-start.md
+      - Environment Cache Preparation:
+        - Introduction: guide/data/overview.md
+        - SWE-smith Dataset: guide/data/swe-smith.md
+        - SWE-bench Verified Dataset: guide/data/swe-bench.md
+        - Custom Dataset: guide/data/custom-dataset.md
+      - MiniSandbox CLI API Guides: 
+        - SWE-Agent CLI Guide: guide/cli/sweagent.md
+        - SkyRL CLI Guide: guide/cli/skyrl.md
+      - Developer Guides: 
+        - Architecture: guide/architecture.md
+        - API Reference: 
+          - SWE MiniSandbox Deployment API Reference: guide/api/swe-minisandbox.md
+          - SWE-Rex API Reference: guide/api/swe-rex.md
+          - Sky-RL API Reference: guide/api/sky-rl.md
+          - SWE-Agent API Reference: 
+            - SWE-Agent Overview: guide/api/sweagent/swe-agent.md
+            - Environment API Reference: guide/api/sweagent/env.md
+            - Agent API Reference: guide/api/sweagent/agent.md
+            - Instance API Reference: guide/api/sweagent/instance.md
+            - Tool API Reference: guide/api/sweagent/tool.md
+            - Batch-run API Reference: guide/api/sweagent/batch-run.md
+            

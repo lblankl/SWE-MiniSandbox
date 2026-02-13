@@ -1,0 +1,62 @@
+
+name: Pytest
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'mkdocs.yml'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'mkdocs.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+      MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build docker image
+        # Can only copy things from the current directory,
+        # so need to move this first
+        run: |
+          mv tests/setup_test_docker.sh .
+          mv tests/swe_rex_test.Dockerfile .
+          ./setup_test_docker.sh
+          mv swe_rex_test.Dockerfile tests/
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+      - name: Install dependencies
+        run: |
+            uv pip install --python ${Python_ROOT_DIR} '.[dev]'
+      - name: Run pytest
+        uses: sjvrijn/pytest-last-failed@v2
+        with:
+          pytest-args: '--cov swerex -k "not cloud"'
+      # - name: Explicitly convert coverage to xml
+      #   run: coverage xml
+      # - name: Upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v4.0.1
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     slug: SWE-agent/SWE-agent

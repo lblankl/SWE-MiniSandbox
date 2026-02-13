@@ -1,0 +1,11 @@
+prefix=/root/.local
+exec_prefix=/root/.local
+libdir=/root/.local/lib
+includedir=/root/.local/include
+
+Name: numa
+Description: NUMA policy library
+Version: 2.0.16
+Cflags: -I${includedir}
+Libs: -L${libdir} -lnuma
+Libs.Private: 

@@ -1,0 +1,121 @@
+site_name: SWE-ReX documentation
+site_url: https://swe-rex.com
+theme:
+  name: material
+  custom_dir: docs/overrides
+  icon:
+    repo: fontawesome/brands/github
+    annotation: material/chevron-right-circle
+  logo: assets/swerex_no_text.svg
+  favicon: assets/swerex_no_text.svg
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - scheme: default
+      # primary: black # override in custom.css
+      accent: deep orange
+      media: "(prefers-color-scheme: light)"
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      # primary: black # override in custom.css
+      accent: deep orange
+      media: "(prefers-color-scheme: dark)"
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - content.action.edit
+    - navigation.footer
+    - content.code.copy
+    - content.footnote.tooltips
+    - header.autohide
+    - announce.dismiss
+    - content.code.annotate
+markdown_extensions:
+  - sane_lists
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.magiclink
+  - footnotes
+  - attr_list
+  - md_in_html
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+nav:
+  - Getting started:
+    - index.md
+    - Overview: index.md
+    - Installation: installation.md
+    - Tutorial: usage.md
+    - Architecture: architecture.md
+  - Reference:
+    - Deployment configuration: api/deployments/config.md
+    - Deployments classes:
+      - Abstract: api/deployments/abstract.md
+      - Local: api/deployments/local.md
+      - Remote: api/deployments/remote.md
+      - Docker: api/deployments/docker.md
+      - Modal: api/deployments/modal.md
+      - Fargate: api/deployments/fargate.md
+      - Dummy: api/deployments/dummy.md
+    - Runtimes classes:
+      - Abstract: api/runtimes/abstract.md
+      - Local: api/runtimes/local.md
+      - Remote: api/runtimes/remote.md
+      - Data: api/runtimes/data.md
+      - Dummy: api/runtimes/dummy.md
+    - Server: api/server.md
+plugins:
+   - glightbox
+   - search
+   - include-markdown
+   - mike:
+      canonical_version: latest
+      version_selector: true
+   - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: ['src/swerex']
+          options:
+            merge_init_into_class: true
+            summary: false
+            show_root_heading: true
+            heading_level: 2
+            docstring_style: google
+            show_if_no_docstring: true
+            show_signature: true
+            show_signature_annotations: true
+            signature_crossrefs: true
+            separate_signature: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            extensions:
+              - griffe_pydantic:
+                  schema: false
+repo_url: https://github.com/SWE-agent/SWE-ReX
+repo_name: SWE-agent/SWE-ReX
+edit_uri: edit/main/docs/
+extra_css:
+  - https://fonts.googleapis.com/icon?family=Material+Icons
+  - css/navigation_cards.css
+  - css/custom.css
+  - css/mkdocstrings.css
+  - css/bubbles.css
+extra:
+  version:
+    provider: mike
+  analytics:
+    provider: google
+    property: G-T5P2NYGJYR

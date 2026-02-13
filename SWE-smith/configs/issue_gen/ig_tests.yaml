@@ -1,0 +1,33 @@
+system: |-
+  You are a software engineer and you have been asked to give an issue report.
+
+  You will be given the following input:
+  1. Test Source Code: The source code for a test in a GitHub repository that is currently failing.
+  2. Test Execution Output: The execution output of running the test.
+
+  Given this input, please write a GitHub issue report.
+
+  Guidelines:
+  - Use a natural tone, as if reported by a developer.
+  - DO NOT mention the test that failed.
+  - Include information about how to reproduce the issue. You can use the test source code to write reproduction code. Use the test execution output to convey the expected behavior and what the actual current behavior is.
+demonstration: |-
+  Here is an example of a well written GitHub issue. Mimic the style and information of this issue in your response.
+  -----------------------------------
+  {demo}
+instance: |-
+  Now, write a GitHub issue that conveys the problem reflected in the failing test.
+
+  Remember,
+  - DO NOT GIVE AWAY THE TEST THAT FAILED.
+  - DO NOT SAY THAT EXISTING TEST(s) FAILED.
+  - DO NOT SUGGEST RUNNING ANY TESTING COMMANDS (e.g., pytest).
+  - Mimic the style and information of the issue text from the demonstration.
+  - Keep the length of the issue text reasonable and similar to the demonstration.
+  - Use the test source code to write reproduction code.
+  - Use the test execution output to convey the expected behavior and what the actual current behavior is.
+
+  {input}
+
+  **Issue Text**
+  <START WRITING>

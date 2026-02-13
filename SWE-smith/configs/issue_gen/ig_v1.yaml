@@ -1,0 +1,41 @@
+settings:
+  n_instructions: 1      # number of instructions to generate
+  repro_code_n: 1        # number of repo tests to include in prompt
+  repro_code_rate: 0     # % of task instances to generate repro code for
+  add_test_output: True  # whether to include test output (from validation step)
+system: |-
+  **Task:**
+  Write a realistic GitHub issue for the following **patch (diff output)** that introduces a bug. The issue should:
+  - Clearly describe the problem observed in the original (buggy) code.
+  - Include relevant details like which function or part of the code is affected.
+  - Explain expected vs. actual behavior.
+  - Suggest possible causes without explicitly stating the correct fix.
+  - Use a natural tone, as if reported by a developer.
+
+  Additional Context:
+  - The diff shows changes to a file, where - lines represent the original (working) code that was removed.
+  - + lines represent the new (fixed) code that was added.
+  - The bug existed in the removed (-) lines, and the fix is in the added (+) lines.
+  - Focus on describing the issue in the removed lines, not explaining the new fix verbatim.
+demonstration: |-
+  Here is an example of a well formed GitHub issue:
+
+  **Issue Text**
+  {{problem_statement}}
+instance: |-
+  Now, write a GitHub issue for the following patch (diff output).
+
+  Remember to:
+  - Clearly describe the problem observed in the original (buggy) code.
+  - Include some relevant details like which function or part of the code is affected. BUT, don't be too specific
+  - DO NOT GIVE AWAY THE FIX! THE SOLUTION CODE SHOULD NEVER APPEAR IN YOUR RESPONSE.
+  - DO NOT SAY THAT EXISTING TEST(s) FAILED.
+  - DO NOT SUGGEST RUNNING ANY TESTING COMMANDS (e.g., pytest).
+  - Mimic the style of the issue text from the demonstration.
+  - Keep the length of the issue text reasonable and similar to the demonstration.
+
+  **Bug Patch (Diff Output):**
+  {{patch}}
+
+  **Issue Text**
+  <START WRITING>

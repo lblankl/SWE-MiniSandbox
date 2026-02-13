@@ -1,0 +1,73 @@
+num_workers: 50
+num_workers: 50
+output_dir : /home/output2
+instances:
+  database: /ossfs/workspace/nas/ais_default_code_config_repo_507090/datasets/SWE-bench_Verified/data
+  type: swe_bench
+  # subset: verified # can also be lite, full
+  split: test
+  deployment:
+    root_base: /home/sandbox
+    git_base_path: /home/gitcache
+    data_type: swebench
+    tool_path: /home/zeta/SWE/SWE-MiniSandbox/SWE-agent/tools
+    conda_env: /ossfs/workspace/nas/py31016/miniconda3
+    abs_tool_path: /tools
+    shared_venv: /home/shared_venv
+    git_folder: testbed
+    type: sandbox
+agent:
+  type: default
+  templates:
+    system_template: |-
+      You are a helpful assistant that can interact with a computer to solve tasks.
+    instance_template: |-
+      <uploaded_files>
+      {{working_dir}}
+      </uploaded_files>
+      I've uploaded a python code repository in the directory {{working_dir}}. Consider the following PR description:
+
+      <pr_description>
+      {{problem_statement}}
+      </pr_description>
+
+      Can you help me implement the necessary changes to the repository so that the requirements specified in the <pr_description> are met?
+      I've already taken care of all changes to any of the test files described in the <pr_description>. This means you DON'T have to modify the testing logic or any of the tests in any way!
+      Your task is to make the minimal changes to non-tests files in the {{working_dir}} directory to ensure the <pr_description> is satisfied.
+      Follow these steps to resolve the issue:
+      1. As a first step, it might be a good idea to find and read code relevant to the <pr_description>
+      2. Create a script to reproduce the error and execute it with `python <filename.py>` using the bash tool, to confirm the error
+      3. Edit the source code of the repo to resolve the issue
+      4. Rerun your reproduce script and confirm that the error is fixed!
+      5. Think about edgecases and make sure your fix handles them as well
+      Your thinking should be thorough and so it's fine if it's very long.
+    next_step_template: |-
+      OBSERVATION:
+      {{observation}}
+    next_step_no_output_template: |-
+      Your command ran successfully and did not produce any output.
+    max_observation_length: 70000
+  tools:
+    bundles:
+      - path: tools/registry
+      - path: tools/edit_anthropic
+      - path: tools/submit
+    env_variables:
+      USE_FILEMAP: 'true'
+    enable_bash_tool: true
+    parse_function:
+      type: function_calling
+    str_replace_editor:
+      arguments:
+      - name: view_range
+        argument_format: "--view_range {{value}}"
+    execution_timeout: 300
+  # history_processors:
+  #   - type: last_n_observations
+  #     n: 5
+  model:
+    api_key: swesmith
+    name: hosted_vllm/custom
+    per_instance_cost_limit: 0
+    per_instance_call_limit: 0
+    # temperature: 0.0

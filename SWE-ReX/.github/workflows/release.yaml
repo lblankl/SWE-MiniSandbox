@@ -1,0 +1,54 @@
+name: Release to PyPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_pypi:
+        description: 'Upload to Test PyPI instead of PyPI'
+        required: false
+        default: false
+        type: boolean
+  release:
+    types: [published]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    environment: release
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
+    - name: Install uv
+      run: |
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+    - name: Install build dependencies
+      run: |
+        uv pip install --python ${Python_ROOT_DIR} build twine
+
+    - name: Build package
+      run: python -m build
+
+    - name: Check package
+      run: python -m twine check dist/*
+
+    - name: Upload to Test PyPI
+      if: ${{ github.event.inputs.test_pypi == 'true' }}
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        repository-url: https://test.pypi.org/legacy/
+        verbose: true
+
+    - name: Upload to PyPI
+      if: ${{ github.event.inputs.test_pypi != 'true' }}
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        verbose: true
