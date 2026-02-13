@@ -60,7 +60,7 @@ To get up and running quickly, follow the steps in our [Quick Start Guide](https
 
 ## Additional Resources
 
-- [Images](https://hub.docker.com/lblankl/swe-minisandbox)  
+- [Image](https://hub.docker.com/repository/docker/lblankl/swe-minisandbox/general)  
 - [Conda Backend Files](https://huggingface.co/lblankl/MiniSandbox)
 - [API Reference](https://lblankl.github.io/SWE-MiniSandbox/guide/cli/sweagent/)
 - [Datasets](https://huggingface.co/datasets/lblankl/swe-minisandbox-sft-data6k)
@@ -95,6 +95,7 @@ If you use SWE-MiniSandbox in your research, please cite:
       primaryClass={cs.SE},
       url={https://arxiv.org/abs/2602.11210}, 
 }
+
 
 
 
