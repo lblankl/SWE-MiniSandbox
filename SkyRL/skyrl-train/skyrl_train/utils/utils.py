@@ -632,20 +632,20 @@ def initialize_ray(cfg: DictConfig):
     try:
         print(env_vars)
         # ray.init(runtime_env={"env_vars": env_vars},num_cpus=int(os.environ.get("RAY_NUM_CPUS", 32)),resources={"tar_io": 10,"container":128,"container_start_up":128},include_dashboard=False)
-        ray.init(
-            runtime_env={"env_vars": env_vars},
-            num_cpus=int(os.environ.get("RAY_NUM_CPUS", 32)),
-            _temp_dir=os.environ.get("RAY_TEMP_DIR", "/home/zeta/ray_tmp"),
-            resources={
-                "sandbox":128,
-                "sandbox_start_up":128,
-                "tar_io": int(os.environ.get("tar_io", 10)),
-                "container": int(os.environ.get("container", 128)),
-                "container_start_up": int(os.environ.get("container_start_up", 128)),
-            },
-            include_dashboard=False,
-        )
-        #ray.init(runtime_env={"env_vars": env_vars},address="auto")
+        # ray.init(
+        #     runtime_env={"env_vars": env_vars},
+        #     num_cpus=int(os.environ.get("RAY_NUM_CPUS", 32)),
+        #     _temp_dir=os.environ.get("RAY_TEMP_DIR", "/home/zeta/ray_tmp"),
+        #     resources={
+        #         "sandbox":128,
+        #         "sandbox_start_up":128,
+        #         "tar_io": int(os.environ.get("tar_io", 10)),
+        #         "container": int(os.environ.get("container", 128)),
+        #         "container_start_up": int(os.environ.get("container_start_up", 128)),
+        #     },
+        #     include_dashboard=False,
+        # )
+        ray.init(runtime_env={"env_vars": env_vars},address="auto")
 
     except Exception as e:
         import traceback
