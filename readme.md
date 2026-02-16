@@ -34,6 +34,7 @@ Python environments are isolated using `venv`, ensuring that each agent has its 
 
 SWE‑MiniSandbox achieves training performance equivalent to traditional Docker‑based setups.
 We provide a WandB training demo comparing both frameworks:
+
 👉 https://wandb.ai/open_source_blank/SWE-MiniSandbox
 Using SWE‑bench / SWE‑agent‑LM‑7B, we trained on 1600 SWE‑Smith samples for 200 steps under both the minisandbox and Docker implementations, observing comparable performance.
 
@@ -104,6 +105,7 @@ If you use SWE-MiniSandbox in your research, please cite:
       primaryClass={cs.SE},
       url={https://arxiv.org/abs/2602.11210}, 
 }
+
 
 
 
