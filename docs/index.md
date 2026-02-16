@@ -1,6 +1,6 @@
 
 <p align="center">
-  <a href="https://lblankl.github.io/SWE-MiniSandbox/">
+  <a href="https://github.com/lblankl/SWE-MiniSandbox">
     <img src="img/test.png" alt="SWE-MiniSandbox" style="height: 15em" />
   </a>
 </p>
@@ -93,4 +93,5 @@ zip/                # Compressed resources
             - [Instance API](https://lblankl.github.io/SWE-MiniSandbox/guide/api/sweagent/instance/)
             - [Tool API](https://lblankl.github.io/SWE-MiniSandbox/guide/api/sweagent/tool/)
             - [Batch-run API](https://lblankl.github.io/SWE-MiniSandbox/guide/api/sweagent/batch-run/)
+
 
