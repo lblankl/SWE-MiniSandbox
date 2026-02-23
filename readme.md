@@ -95,8 +95,6 @@ Some components are adapted from [R2E-Gym](https://github.com/R2E-Gym/R2E-Gym).
 
 ## Citation
 
-If you use SWE-MiniSandbox in your research, please cite:
-
 ```bibtex
 @misc{yuan2026sweminisandboxcontainerfreereinforcementlearning,
       title={SWE-MiniSandbox: Container-Free Reinforcement Learning for Building Software Engineering Agents}, 
@@ -107,6 +105,7 @@ If you use SWE-MiniSandbox in your research, please cite:
       primaryClass={cs.SE},
       url={https://arxiv.org/abs/2602.11210}, 
 }
+```
 
 
 
