@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/Docs-green?style=for-the-badge&logo=materialformkdocs&logoColor=white" alt="Docs">
   </a>
   <a href="https://arxiv.org/abs/2602.11210">
-    <img src="https://img.shields.io/badge/arXiv-2405.15793-red?style=for-the-badge&logo=arxiv&logoColor=white&labelColor=black" alt="arXiv 2405.15793">
+    <img src="https://img.shields.io/badge/arXiv-2405.15793-red?style=for-the-badge&logo=arxiv&logoColor=white&labelColor=black" alt="arXiv 2602.11210">
   </a>
 </div>
 
@@ -106,6 +106,7 @@ Some components are adapted from [R2E-Gym](https://github.com/R2E-Gym/R2E-Gym).
       url={https://arxiv.org/abs/2602.11210}, 
 }
 ```
+
 
 
 
