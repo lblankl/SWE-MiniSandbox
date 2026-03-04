@@ -133,7 +133,7 @@ The data will be downloaded to `$basedir/datasets/swe-minisandbox-sft-data6k`. T
 If you want to collect data yourself or use other models, refer to the [Smith Data](data/swe-smith.md) guide.
 
 ## Supervised Fine-Tuning (SFT)
-
+If you do not use existing models from SWE-smith you have to finetune your own model.
 Here's a sample script to perform SFT with the collected data, using Qwen-3B-Coder-Instruct as an example:
 
 ```bash
@@ -158,7 +158,7 @@ dataset:
 ### Prerequisites
 You can download the RL data used in our paper by:
 ```bash
-bashhf download lblankl/swe-minisandbox-rl_formatted-1600 --local-dir $basedir/datasets/swe-minisandbox-rl_formatted-1600
+hf download lblankl/swe-minisandbox-rl_formatted-1600 --local-dir $basedir/datasets/swe-minisandbox-rl_formatted-1600
 ```
 
 Before running RL training, ensure you have:
@@ -363,3 +363,4 @@ python -m swebench.harness.run_evaluation \
 
 -   [Environment Preparation Guide](data/overview.md)
 -   [MiniSandbox CLI API Guides](cli/sweagent.md) -->
+
