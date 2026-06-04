@@ -281,7 +281,7 @@ class SandboxDeployment(AbstractDeployment):
             ("/dev", "rw","/dev"),
             ("/proc", "rw","/proc"),
             ("/sys", "rw","/sys"),
-            ("/tmp", "rw","/tmp"),
+            # /tmp: per-sandbox tmpfs mounted below instead of host bind (issue #4)
             # conda
             (self._config.conda_env, "ro",self._config.conda_env),
             
@@ -310,6 +310,11 @@ class SandboxDeployment(AbstractDeployment):
                 continue
             ttg=os.path.join(self._config.root_dir,tg.lstrip('/'))
             mount_cmds.append(f"mount --bind {src} {ttg}")
+
+        # per-sandbox tmpfs for /tmp, private to this mount namespace (issue #4)
+        tmp_target = os.path.join(self._config.root_dir, "tmp")
+        os.makedirs(tmp_target, exist_ok=True)
+        mount_cmds.append(f"mount -t tmpfs -o mode=1777 tmpfs {tmp_target}")
         self._ps1='SHELLPS1PREFIX'
         ps1 = self._ps1.replace("'", "'\"'\"'")  # 处理单引号以安全嵌入单引号字符串
 
